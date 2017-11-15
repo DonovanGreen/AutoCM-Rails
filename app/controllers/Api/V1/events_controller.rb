@@ -7,6 +7,7 @@ class Api::V1::EventsController < ApplicationController
 
   def create
     event = Event.create(event_params)
+    event.user_id = current_user.id
     current_user.events << event
     render json: event
   end
@@ -25,7 +26,7 @@ class Api::V1::EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:user).permit(:title, :allDay, :start, :end, :user_id)
+    params.require(:event).permit(:title, :allDay, :start, :end)
   end
 
 end
